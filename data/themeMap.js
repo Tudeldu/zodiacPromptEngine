@@ -16,78 +16,168 @@
  */
 export const THEME_MAP = {
     winter: {
-        clothes: "fur-trimmed royal cloak, icy blue silk gown",
-        background: "snowy aurora night sky with drifting frost",
-        elements: "crystalline ice filigree, snowflakes, silver ornaments"
+        name: "winter",
+        location: "frozen palace terrace",
+        time: "winter night",
+        weather: "falling snow, frosty air",
+        palette: "icy blues, silver, pale cyan highlights",
+        clothes: "fur-trimmed royal cloak, ice-embroidered gown",
+        materials: "velvet, fur, crystalline embroidery",
+        background: "aurora sky with drifting frost and distant snowy peaks",
+        elements: "ice crystals, snowflakes, silver filigree"
     },
     spring: {
-        clothes: "floral-embroidered flowing dress, pastel ribbons",
-        background: "blooming meadow with soft sunrise haze",
-        elements: "petals, vines, dew-kissed gold accents"
+        name: "spring",
+        location: "blooming garden courtyard",
+        time: "early morning",
+        weather: "fresh dew, light breeze",
+        palette: "pastels, fresh greens, warm sunrise gold",
+        clothes: "floral-embroidered flowing dress, ribboned cape",
+        materials: "silk, lace, floral threadwork",
+        background: "sunrise haze over blossoms and flowering arches",
+        elements: "petals, vines, dew sparkle, gold accents"
     },
     summer: {
-        clothes: "sunlit golden gown, airy sheer cape",
-        background: "bright coastal horizon with shimmering heat haze",
-        elements: "sun motifs, warm glints, sparkling dust"
+        name: "summer",
+        location: "sunlit coastal cliff",
+        time: "late afternoon",
+        weather: "warm air, bright sun",
+        palette: "gold, turquoise, warm skin tones",
+        clothes: "sun-kissed regal gown, airy sheer cape",
+        materials: "silk chiffon, gilded trim",
+        background: "glittering sea horizon with radiant sun glare",
+        elements: "sun motifs, warm glints, floating sparkles"
     },
     fall: {
-        clothes: "velvet dress in amber tones, leaf-patterned mantle",
-        background: "autumn forest with swirling golden leaves",
+        name: "fall",
+        location: "autumn forest path",
+        time: "golden hour",
+        weather: "cool breeze, swirling leaves",
+        palette: "amber, copper, deep red, warm brown",
+        clothes: "velvet dress in amber tones, leaf-pattern mantle",
+        materials: "velvet, brocade, brass embroidery",
+        background: "glowing woods with drifting leaves and warm haze",
         elements: "maple leaves, bronze filigree, harvest glow"
     },
     Christmas: {
+        name: "Christmas",
+        location: "snowy village square",
+        time: "night",
+        weather: "snowfall, twinkling lights",
+        palette: "red, gold, evergreen, warm tungsten",
         clothes: "festive regal dress with red-and-gold trim, fur-lined cape",
-        background: "snowy village lights and twinkling winter sky",
-        elements: "holly, ornaments, warm fairy lights, gold ribbons"
+        materials: "velvet, fur, gilded embroidery",
+        background: "lantern-lit streets and decorated pines under a snowy sky",
+        elements: "holly, ornaments, fairy lights, gold ribbons"
     },
     Easter: {
-        clothes: "soft pastel ceremonial gown, delicate lace veil",
-        background: "spring garden with bright morning light",
-        elements: "painted eggs, lilies, gentle sparkles, gold accents"
+        name: "Easter",
+        location: "spring meadow shrine",
+        time: "morning",
+        weather: "soft sun, fresh air",
+        palette: "pastel pink, lavender, soft cream, mint",
+        clothes: "pastel ceremonial gown, delicate lace veil",
+        materials: "lace, silk, pearl accents",
+        background: "flower fields with bright morning glow and gentle haze",
+        elements: "lilies, painted eggs, gentle sparkles, gold accents"
     },
     jungle: {
+        name: "jungle",
+        location: "overgrown temple ruins",
+        time: "midday",
+        weather: "humid mist, sunbeams through canopy",
+        palette: "deep green, gold, humid teal",
         clothes: "emerald ceremonial dress, leaf-like shoulder pieces",
-        background: "lush rainforest with sunbeams through canopy",
-        elements: "vines, exotic flowers, mist, carved gold totems"
+        materials: "woven fibers, jade jewelry, gold inlay",
+        background: "lush rainforest with dappled light and mist",
+        elements: "vines, orchids, carved totems, drifting spores"
     },
     space: {
+        name: "space",
+        location: "celestial observatory platform",
+        time: "eternal starlight",
+        weather: "weightless dust, cosmic haze",
+        palette: "violet, indigo, star-white, neon accents",
         clothes: "starlit royal dress with nebula patterns, celestial cape",
-        background: "deep nebula with distant planets and starfields",
-        elements: "orbit rings, constellations, cosmic dust, golden astrolabe motifs"
+        materials: "satin, metallic thread, iridescent fabric",
+        background: "nebula clouds, distant planets, dense starfields",
+        elements: "constellations, orbit rings, cosmic dust, astrolabe motifs"
     },
     mountain: {
+        name: "mountain",
+        location: "alpine summit ridge",
+        time: "sunrise",
+        weather: "cold wind, thin mist",
+        palette: "slate, pale gold, crisp blue",
         clothes: "rugged regal cloak, slate-and-silver embroidered gown",
-        background: "majestic peaks with thin clouds and cold light",
-        elements: "stone runes, wind trails, glinting crystalline accents"
+        materials: "wool, leather accents, silver embroidery",
+        background: "towering peaks with cloud ribbons and cold light",
+        elements: "stone runes, wind trails, crystalline accents"
     },
     clouds: {
+        name: "clouds",
+        location: "sky realm above the clouds",
+        time: "bright day",
+        weather: "glowing sun rays, airy haze",
+        palette: "pearl white, sky blue, soft gold",
         clothes: "airy flowing dress, cloudlike chiffon layers",
-        background: "vast sky of billowing clouds and sun rays",
-        elements: "feathered motifs, pearlescent glow, soft golden filigree"
+        materials: "chiffon, pearlescent fabric, gold filigree",
+        background: "billowing clouds with god rays and soft bokeh light",
+        elements: "feather motifs, pearlescent glow, floating light motes"
     },
     city: {
+        name: "city",
+        location: "neon downtown boulevard",
+        time: "night",
+        weather: "light rain, wet reflections",
+        palette: "neon magenta, cyan, deep black, chrome highlights",
         clothes: "modern royal couture dress, sleek metallic embroidery",
-        background: "neon-lit skyline with reflective wet streets",
-        elements: "holographic accents, geometric gold patterns, glowing signage bokeh"
+        materials: "satin, chrome accessories, reflective textiles",
+        background: "neon skyline with rain-slick streets and glowing bokeh",
+        elements: "holographic accents, geometric patterns, signage glow"
     },
     grass: {
+        name: "grass",
+        location: "rolling green fields",
+        time: "afternoon",
+        weather: "gentle breeze, warm sun",
+        palette: "fresh green, sunflower gold, natural tones",
         clothes: "verdant gown with botanical embroidery, woven crown",
-        background: "open green fields with gentle breeze and light",
-        elements: "wildflowers, pollen glow, golden nature filigree"
+        materials: "linen, embroidered threadwork, floral jewelry",
+        background: "open meadow with soft horizon haze and bright light",
+        elements: "wildflowers, pollen glow, nature filigree"
     },
     future: {
-        clothes: "futuristic ceremonial suit-dress, chrome and luminous seams",
-        background: "sleek sci-fi metropolis with holograms and light trails",
-        elements: "holographic glyphs, circuitry filigree, radiant energy lines"
+        name: "future",
+        location: "sleek arcology plaza",
+        time: "night",
+        weather: "clean air, light holographic fog",
+        palette: "teal, white, chrome, neon accents",
+        clothes: "futuristic ceremonial suit-dress, luminous seams",
+        materials: "chrome, glass-like textiles, LED filaments",
+        background: "holograms and light trails among futuristic towers",
+        elements: "circuit filigree, holographic glyphs, energy lines"
     },
     "middle ages": {
+        name: "middle ages",
+        location: "stone castle hall",
+        time: "evening",
+        weather: "torch smoke, warm air",
+        palette: "warm amber, deep burgundy, aged gold",
         clothes: "medieval royal gown with brocade, ornate cape and corset",
-        background: "stone castle hall with banners and torchlight",
-        elements: "heraldic emblems, gilded armor accents, carved golden trim"
+        materials: "brocade, leather, gilded trim",
+        background: "banners, stone arches, torchlight glow and smoke",
+        elements: "heraldry, gilded armor accents, carved trim"
     },
     ancient: {
+        name: "ancient",
+        location: "sacred temple courtyard",
+        time: "sunset",
+        weather: "incense haze, warm dust",
+        palette: "sandstone, antique gold, sunset orange",
         clothes: "ancient ceremonial robe with gold jewelry and linen folds",
-        background: "temple ruins with carved pillars and sacred incense haze",
-        elements: "hieroglyph-like symbols, sun discs, antique gold relics"
+        materials: "linen, hammered gold, carved stone motifs",
+        background: "ruins with pillars, carved reliefs, and sacred haze",
+        elements: "sun discs, relics, glyph carvings, drifting incense"
     }
 };

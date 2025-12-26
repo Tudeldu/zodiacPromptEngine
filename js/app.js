@@ -20,11 +20,19 @@ const SIGNS = [
  * Prompt template used to generate prompts.
  * @type {string}
  */
-const BASE_TEMPLATE =
-    "mystical fantasy portrait of a beautiful [gender_representation] representing [Zodiac Sign], " +
-    "[theme_clothes], [theme_background] background, [zodiac_in_background], glowing zodiac symbol, " +
-    "[tone_atmosphere] atmosphere, [tone_expression] facial expression, highly detailed digital illustration, " +
-    "[tone_lighting] lighting, [theme_elements] elements, [zodiac_iconography], ethereal, fantasy art, 4k, ultra detailed";
+export const BASE_TEMPLATE =
+    "[theme_name], [tone_name]. " +
+    "Cinematic mystical fantasy portrait (head-and-shoulders), centered composition, shallow depth of field. " +
+    "Subject: beautiful [gender_representation] embodying [Zodiac Sign]; identity/persona: [zodiac_persona]. " +
+    "Wardrobe: [theme_clothes] (materials: [theme_materials]). " +
+    "Scene: [theme_location], [theme_time], [theme_weather]; background: [theme_background]. " +
+    "Zodiac focus: [zodiac_in_background], glowing [Zodiac Sign] glyph halo behind the head, [zodiac_iconography], prop: [zodiac_prop]. " +
+    "Mood: [tone_atmosphere], facial expression: [tone_expression], color palette: [tone_palette] + [theme_palette], FX: [tone_fx]. " +
+    "Lighting: [tone_lighting]. Camera: [tone_camera]. " +
+    "Extra thematic elements: [theme_elements]. " +
+    "Keep the same distinct persona facial features: [zodiac_persona]. " +
+    "Ultra-detailed, high fidelity, fantasy art, 4k.";
+
 
 /**
  * Gender -> prompt-ready representation.
@@ -88,20 +96,42 @@ function buildPromptForSign(zodiacSign, settings) {
     const themeObj = safePick(THEME_MAP, settings.themeKey, "space");
     const zodiacObj = safePick(ZODIAC_MAP, zodiacSign, "Aries");
 
-    const prompt = BASE_TEMPLATE
-        .replace("[Zodiac Sign]", zodiacSign)
-        .replace("[gender_representation]", genderRep)
-        .replace("[theme_clothes]", themeObj.clothes)
-        .replace("[theme_background]", themeObj.background)
-        .replace("[zodiac_in_background]", zodiacObj.bgFocus)
-        .replace("[tone_atmosphere]", toneObj.atmosphere)
-        .replace("[tone_expression]", toneObj.expression)
-        .replace("[tone_lighting]", toneObj.lighting)
-        .replace("[theme_elements]", themeObj.elements)
-        .replace("[zodiac_iconography]", zodiacObj.iconography);
+    const replacements = {
+        "[Zodiac Sign]": zodiacSign,
+        "[gender_representation]": genderRep,
+
+        "[tone_name]": toneObj.name ?? settings.toneKey,
+        "[tone_atmosphere]": toneObj.atmosphere,
+        "[tone_expression]": toneObj.expression,
+        "[tone_lighting]": toneObj.lighting,
+        "[tone_palette]": toneObj.palette,
+        "[tone_camera]": toneObj.camera,
+        "[tone_fx]": toneObj.fx,
+
+        "[theme_name]": themeObj.name ?? settings.themeKey,
+        "[theme_location]": themeObj.location,
+        "[theme_time]": themeObj.time,
+        "[theme_weather]": themeObj.weather,
+        "[theme_palette]": themeObj.palette,
+        "[theme_clothes]": themeObj.clothes,
+        "[theme_materials]": themeObj.materials,
+        "[theme_background]": themeObj.background,
+        "[theme_elements]": themeObj.elements,
+
+        "[zodiac_persona]": zodiacObj.persona,
+        "[zodiac_in_background]": zodiacObj.bgFocus,
+        "[zodiac_iconography]": zodiacObj.iconography,
+        "[zodiac_prop]": zodiacObj.prop,
+    };
+
+    let prompt = BASE_TEMPLATE;
+    for (const [needle, value] of Object.entries(replacements)) {
+        prompt = prompt.replaceAll(needle, value);
+    }
 
     return { prompt };
 }
+
 
 /**
  * Copy text to clipboard (Clipboard API with fallback).
