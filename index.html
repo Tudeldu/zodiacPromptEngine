@@ -8,8 +8,6 @@
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- App CSS -->
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 
@@ -20,28 +18,12 @@
                 <h1 class="h3 mb-1">Zodiac Image Prompt Generator</h1>
             </header>
 
+            <!-- Settings -->
             <div class="card bg-dark text-light shadow-sm mb-3">
                 <div class="card-body">
                     <div class="row g-3">
-                        <div class="col-12 col-md-6">
-                            <label for="zodiac" class="form-label">Zodiac Sign</label>
-                            <select id="zodiac" class="form-select">
-                                <option>Aries</option>
-                                <option>Taurus</option>
-                                <option>Gemini</option>
-                                <option>Cancer</option>
-                                <option>Leo</option>
-                                <option>Virgo</option>
-                                <option>Libra</option>
-                                <option>Scorpio</option>
-                                <option>Sagittarius</option>
-                                <option>Capricorn</option>
-                                <option>Aquarius</option>
-                                <option>Pisces</option>
-                            </select>
-                        </div>
-
-                        <div class="col-12 col-md-6">
+                        <!-- Gender -->
+                        <div class="col-12 col-md-4">
                             <label for="gender" class="form-label">Gender</label>
                             <select id="gender" class="form-select">
                                 <option value="female">female</option>
@@ -50,7 +32,8 @@
                             </select>
                         </div>
 
-                        <div class="col-12 col-md-6">
+                        <!-- Tone -->
+                        <div class="col-12 col-md-4">
                             <label for="tone" class="form-label">Tone</label>
                             <select id="tone" class="form-select">
                                 <option value="dark">dark</option>
@@ -66,9 +49,10 @@
                             </select>
                         </div>
 
-                        <div class="col-12 col-md-6">
+                        <!-- Theme -->
+                        <div class="col-12 col-md-4">
                             <label for="theme" class="form-label">Theme</label>
-                            <select id="theme" class="form-label form-select">
+                            <select id="theme" class="form-select">
                                 <option value="winter">winter</option>
                                 <option value="spring">spring</option>
                                 <option value="summer">summer</option>
@@ -87,30 +71,25 @@
                             </select>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <hr class="my-4 border-secondary" />
+            <!-- Generated list -->
+            <div class="card bg-dark text-light shadow-sm">
+                <div class="card-body">
+                    <h2 class="h6 mb-2">Copy a prompt by Zodiac sign</h2>
+                    <div id="zodiacList" class="list-group list-group-flush"></div>
+                    <hr class="my-3 border-secondary" />
 
                     <div class="d-flex gap-2 flex-wrap">
-                        <button id="copyBtn" class="btn btn-primary">Copy prompt</button>
+                        <button id="copyAllBtn" class="btn btn-primary w-100 w-sm-auto">Copy all prompts</button>
                         <span id="copyStatus" class="text-secondary align-self-center"></span>
                     </div>
                 </div>
             </div>
-
-            <div class="card bg-dark text-light shadow-sm">
-                <div class="card-body">
-                    <h2 class="h6 mb-2">Final Prompt</h2>
-                    <div id="finalPrompt" class="prompt-box p-3 bg-black border border-secondary"></div>
-                </div>
-            </div>
-
-            <!-- <footer class="mt-3 text-secondary small">
-                Modular: mappings in <code>/data</code>, logic in <code>/js</code>, styles in <code>/css</code>.
-            </footer> -->
         </div>
     </div>
 
-    <!-- App JS (ES module) -->
     <script type="module" src="./js/app.js"></script>
 </body>
 

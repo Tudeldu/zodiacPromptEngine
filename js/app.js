@@ -1,6 +1,6 @@
 /**
  * @file app.js
- * @description Main application logic for the Zodiac Prompt Generator.
+ * @description Generates one copyable prompt per zodiac sign based on shared settings.
  */
 
 import { TONE_MAP } from "../data/toneMap.js";
@@ -8,20 +8,16 @@ import { THEME_MAP } from "../data/themeMap.js";
 import { ZODIAC_MAP } from "../data/zodiacMap.js";
 
 /**
- * @typedef {Object} Parts
- * @property {string} gender_representation
- * @property {string} theme_clothes
- * @property {string} theme_background
- * @property {string} theme_elements
- * @property {string} tone_atmosphere
- * @property {string} tone_lighting
- * @property {string} tone_expression
- * @property {string} zodiac_in_background
- * @property {string} zodiac_iconography
+ * Zodiac sign order for rendering.
+ * @type {string[]}
  */
+const SIGNS = [
+    "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+    "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+];
 
 /**
- * Prompt template used to generate the final prompt text.
+ * Prompt template used to generate prompts.
  * @type {string}
  */
 const BASE_TEMPLATE =
@@ -43,120 +39,81 @@ const GENDER_MAP = {
 /**
  * Safe map lookup with a fallback key.
  * @template T
- * @param {Record<string, T>} map - The map object.
- * @param {string} key - Desired key.
- * @param {string} fallbackKey - Fallback key if missing.
- * @returns {T} - The value from the map.
+ * @param {Record<string, T>} map
+ * @param {string} key
+ * @param {string} fallbackKey
+ * @returns {T}
  */
 function safePick(map, key, fallbackKey) {
     return map[key] ?? map[fallbackKey];
 }
 
 /**
- * Cache DOM references once.
+ * Cached DOM references.
  * @returns {Record<string, HTMLElement>}
  */
 function getEls() {
     return {
-        zodiac: document.getElementById("zodiac"),
         gender: document.getElementById("gender"),
         tone: document.getElementById("tone"),
         theme: document.getElementById("theme"),
-        finalPrompt: document.getElementById("finalPrompt"),
-        copyBtn: document.getElementById("copyBtn"),
+        zodiacList: document.getElementById("zodiacList"),
+        copyAllBtn: document.getElementById("copyAllBtn"),
         copyStatus: document.getElementById("copyStatus"),
-
-        pGender: document.getElementById("pGender"),
-        pClothes: document.getElementById("pClothes"),
-        pBg: document.getElementById("pBg"),
-        pAtmos: document.getElementById("pAtmos"),
-        pExpr: document.getElementById("pExpr"),
-        pLight: document.getElementById("pLight"),
-        pZBg: document.getElementById("pZBg"),
-        pZIcon: document.getElementById("pZIcon"),
-        pElems: document.getElementById("pElems"),
     };
 }
 
 /**
- * Build prompt parts + final prompt text based on current UI state.
- * @param {ReturnType<typeof getEls>} els - DOM element references.
- * @returns {{ prompt: string, parts: Parts }}
+ * Get current shared settings from UI.
+ * @param {ReturnType<typeof getEls>} els
+ * @returns {{genderKey: string, toneKey: string, themeKey: string}}
  */
-function buildPromptAndParts(els) {
-    const zodiac = els.zodiac.value.trim();
-    const genderKey = els.gender.value;
-    const toneKey = els.tone.value;
-    const themeKey = els.theme.value;
-    // const extras = els.extras.value.trim();
-
-    const genderRep = safePick(GENDER_MAP, genderKey, "female");
-    const toneObj = safePick(TONE_MAP, toneKey, "neutral");
-    const themeObj = safePick(THEME_MAP, themeKey, "space");
-    const zodiacObj = safePick(ZODIAC_MAP, zodiac, "Aries");
-
-    /** @type {Parts} */
-    const parts = {
-        gender_representation: genderRep,
-        theme_clothes: themeObj.clothes,
-        theme_background: themeObj.background,
-        theme_elements: themeObj.elements,
-        tone_atmosphere: toneObj.atmosphere,
-        tone_lighting: toneObj.lighting,
-        tone_expression: toneObj.expression,
-        zodiac_in_background: zodiacObj.bgFocus,
-        zodiac_iconography: zodiacObj.iconography,
+function getSettings(els) {
+    return {
+        genderKey: els.gender.value,
+        toneKey: els.tone.value,
+        themeKey: els.theme.value,
     };
-
-    let prompt = BASE_TEMPLATE
-        .replace("[Zodiac Sign]", zodiac)
-        .replace("[gender_representation]", parts.gender_representation)
-        .replace("[theme_clothes]", parts.theme_clothes)
-        .replace("[theme_background]", parts.theme_background)
-        .replace("[zodiac_in_background]", parts.zodiac_in_background)
-        .replace("[tone_atmosphere]", parts.tone_atmosphere)
-        .replace("[tone_expression]", parts.tone_expression)
-        .replace("[tone_lighting]", parts.tone_lighting)
-        .replace("[theme_elements]", parts.theme_elements)
-        .replace("[zodiac_iconography]", parts.zodiac_iconography);
-    return { prompt, parts };
 }
 
 /**
- * Render the prompt + part previews into the UI.
- * @param {ReturnType<typeof getEls>} els - DOM element references.
+ * Build a single prompt for a given zodiac sign.
+ * @param {string} zodiacSign
+ * @param {{genderKey: string, toneKey: string, themeKey: string}} settings
+ * @returns {{ prompt: string }}
  */
-function render(els) {
-    const { prompt, parts } = buildPromptAndParts(els);
-    els.finalPrompt.textContent = prompt;
+function buildPromptForSign(zodiacSign, settings) {
+    const genderRep = safePick(GENDER_MAP, settings.genderKey, "female");
+    const toneObj = safePick(TONE_MAP, settings.toneKey, "neutral");
+    const themeObj = safePick(THEME_MAP, settings.themeKey, "space");
+    const zodiacObj = safePick(ZODIAC_MAP, zodiacSign, "Aries");
 
-    els.pGender.textContent = parts.gender_representation;
-    els.pClothes.textContent = parts.theme_clothes;
-    els.pBg.textContent = parts.theme_background;
-    els.pAtmos.textContent = parts.tone_atmosphere;
-    els.pExpr.textContent = parts.tone_expression;
-    els.pLight.textContent = parts.tone_lighting;
-    els.pZBg.textContent = parts.zodiac_in_background;
-    els.pZIcon.textContent = parts.zodiac_iconography;
-    els.pElems.textContent = parts.theme_elements;
+    const prompt = BASE_TEMPLATE
+        .replace("[Zodiac Sign]", zodiacSign)
+        .replace("[gender_representation]", genderRep)
+        .replace("[theme_clothes]", themeObj.clothes)
+        .replace("[theme_background]", themeObj.background)
+        .replace("[zodiac_in_background]", zodiacObj.bgFocus)
+        .replace("[tone_atmosphere]", toneObj.atmosphere)
+        .replace("[tone_expression]", toneObj.expression)
+        .replace("[tone_lighting]", toneObj.lighting)
+        .replace("[theme_elements]", themeObj.elements)
+        .replace("[zodiac_iconography]", zodiacObj.iconography);
 
-    els.copyStatus.textContent = "";
+    return { prompt };
 }
 
 /**
- * Copy the final prompt to the clipboard.
- * Uses Clipboard API when available; falls back to execCommand for older browsers.
- * @param {ReturnType<typeof getEls>} els - DOM element references.
+ * Copy text to clipboard (Clipboard API with fallback).
+ * @param {string} text
+ * @returns {Promise<void>}
  */
-async function copyPrompt(els) {
-    const { prompt } = buildPromptAndParts(els);
-
+async function copyText(text) {
     try {
-        await navigator.clipboard.writeText(prompt);
-        els.copyStatus.textContent = "Copied!";
+        await navigator.clipboard.writeText(text);
     } catch {
         const ta = document.createElement("textarea");
-        ta.value = prompt;
+        ta.value = text;
         ta.setAttribute("readonly", "");
         ta.style.position = "absolute";
         ta.style.left = "-9999px";
@@ -164,26 +121,123 @@ async function copyPrompt(els) {
         ta.select();
         document.execCommand("copy");
         document.body.removeChild(ta);
-        els.copyStatus.textContent = "Copied!";
     }
-
-    setTimeout(() => (els.copyStatus.textContent = ""), 1500);
 }
 
 /**
- * Attach all event listeners for live updates and buttons.
- * @param {ReturnType<typeof getEls>} els - DOM element references.
+ * Set a small transient status message.
+ * @param {ReturnType<typeof getEls>} els
+ * @param {string} msg
+ */
+function setStatus(els, msg) {
+    els.copyStatus.textContent = msg;
+    setTimeout(() => (els.copyStatus.textContent = ""), 1400);
+}
+
+/**
+ * Render a simple list of zodiac signs with copy buttons.
+ * Shows a per-row confirmation next to the clicked button.
+ *
+ * @param {ReturnType<typeof getEls>} els
+ */
+function renderList(els) {
+    const settings = getSettings(els);
+    els.zodiacList.innerHTML = "";
+
+    for (const sign of SIGNS) {
+        const row = makeListItem(sign, async (setRowStatus) => {
+            // Optional immediate feedback while copying
+            setRowStatus("Copying...");
+
+            const { prompt } = buildPromptForSign(sign, settings);
+            await copyText(prompt);
+
+            setRowStatus("Copied!");
+        });
+
+        els.zodiacList.appendChild(row);
+    }
+}
+
+
+/**
+ * Copy all prompts (one per sign) as a single block.
+ * @param {ReturnType<typeof getEls>} els
+ */
+async function copyAllPrompts(els) {
+    const settings = getSettings(els);
+    const all = SIGNS.map((sign) => {
+        const { prompt } = buildPromptForSign(sign, settings);
+        return `${sign}:\n${prompt}`;
+    }).join("\n\n");
+
+    await copyText(all);
+    setStatus(els, "Copied all prompts!");
+}
+
+/**
+ * Wire UI events.
+ * @param {ReturnType<typeof getEls>} els
  */
 function wireEvents(els) {
     ["change", "input"].forEach((evt) => {
-        els.zodiac.addEventListener(evt, () => render(els));
-        els.gender.addEventListener(evt, () => render(els));
-        els.tone.addEventListener(evt, () => render(els));
-        els.theme.addEventListener(evt, () => render(els));
+        els.gender.addEventListener(evt, () => renderList(els));
+        els.tone.addEventListener(evt, () => renderList(els));
+        els.theme.addEventListener(evt, () => renderList(els));
     });
 
-    els.copyBtn.addEventListener("click", () => copyPrompt(els));
+    els.copyAllBtn.addEventListener("click", () => copyAllPrompts(els));
 }
+
+/**
+ * Create a Bootstrap list-group item with a label, a copy button,
+ * and a per-row confirmation message next to the button.
+ *
+ * @param {string} label - Zodiac sign name.
+ * @param {(setRowStatus: (msg: string) => void) => void} onCopy - Handler called on copy click.
+ * @returns {HTMLDivElement}
+ */
+function makeListItem(label, onCopy) {
+    const item = document.createElement("div");
+    item.className =
+        "list-group-item bg-dark text-light d-flex justify-content-between align-items-center gap-2";
+
+    const left = document.createElement("div");
+    left.className = "fw-semibold";
+    left.textContent = label;
+
+    const right = document.createElement("div");
+    right.className = "d-flex align-items-center gap-2";
+
+    const status = document.createElement("span");
+    status.className = "text-secondary small";
+    status.textContent = ""; // per-row confirmation appears here
+
+    const btn = document.createElement("button");
+    btn.className = "btn btn-sm btn-outline-light";
+    btn.type = "button";
+    btn.textContent = "Copy";
+
+    /**
+     * Set the confirmation text for this row and clear it shortly after.
+     * @param {string} msg
+     */
+    function setRowStatus(msg) {
+        status.textContent = msg;
+        if (msg) setTimeout(() => (status.textContent = ""), 1200);
+    }
+
+    btn.addEventListener("click", () => onCopy(setRowStatus));
+
+    right.appendChild(status);
+    right.appendChild(btn);
+
+    item.appendChild(left);
+    item.appendChild(right);
+
+    return item;
+}
+
 
 /**
  * App entry point.
@@ -191,13 +245,13 @@ function wireEvents(els) {
 function main() {
     const els = getEls();
 
-    // Sensible defaults
+    // Defaults
     els.gender.value = "female";
-    els.tone.value = "happy";
-    els.theme.value = "summer";
+    els.tone.value = "dark";
+    els.theme.value = "winter";
 
     wireEvents(els);
-    render(els);
+    renderList(els);
 }
 
 main();

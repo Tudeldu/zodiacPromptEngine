@@ -33,3 +33,14 @@ body {
     font-size: .9rem;
     color: #9aa3b2;
 }
+
+@media (max-width: 576px) {
+    .prompt-box {
+        font-size: 0.9rem;
+    }
+}
+
+.list-group-item {
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+}
