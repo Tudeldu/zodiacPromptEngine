@@ -1,0 +1,35 @@
+/**
+ * App styles for the Zodiac Prompt Generator.
+ * Keep this file small; Bootstrap handles most layout.
+ */
+
+body {
+    background: #0b1020;
+}
+
+.card {
+    border: 0;
+    border-radius: 1rem;
+}
+
+.app-shell {
+    max-width: 780px;
+}
+
+.prompt-box {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    border-radius: .75rem;
+}
+
+.badge-soft {
+    background: rgba(13, 110, 253, .12);
+    color: #0d6efd;
+    border: 1px solid rgba(13, 110, 253, .25);
+}
+
+.mini {
+    font-size: .9rem;
+    color: #9aa3b2;
+}
